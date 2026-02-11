@@ -1,1 +1,515 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>👑 Re Marco - Il Re di Cornovaglia</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #8e44ad 50%, #c0392b 100%);
+            background-attachment: fixed;
+            color: #333;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Petali di rosa animati nello sfondo */
+        .petals {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .petal {
+            position: absolute;
+            background: #ff6b9d;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: fall 15s infinite;
+        }
+
+        @keyframes fall {
+            0% { 
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 0.8;
+            }
+            100% { 
+                transform: translateY(calc(100vh + 100px)) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Header fisso */
+        .page-header {
+            background: linear-gradient(135deg, #8e44ad 0%, #c0392b 100%);
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 4px solid #d4af37;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: #d4af37;
+            font-size: 1.1rem;
+            font-weight: bold;
+            padding: 0.8rem 1.5rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 50px;
+            transition: all 0.3s;
+            border: 2px solid #d4af37;
+        }
+
+        .back-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-5px);
+        }
+
+        .page-title {
+            font-size: 2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-family: 'Times New Roman', serif;
+        }
+
+        /* Container principale a larghezza piena */
+        .main-container {
+            position: relative;
+            z-index: 1;
+            min-height: calc(100vh - 100px);
+        }
+
+        /* Hero section a tutta larghezza */
+        .hero-section {
+            background: linear-gradient(to bottom, rgba(255,255,255,0.95), rgba(255,255,255,0.98));
+            padding: 4rem 2rem;
+            text-align: center;
+            border-bottom: 4px solid #d4af37;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .character-emoji {
+            font-size: 8rem;
+            margin-bottom: 1rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .hero-section h1 {
+            font-family: 'Times New Roman', serif;
+            font-size: 4rem;
+            color: #8e44ad;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .character-subtitle {
+            font-size: 2rem;
+            color: #c0392b;
+            font-style: italic;
+            font-weight: bold;
+        }
+
+        /* Content wrapper */
+        .content-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Citazione a tutta larghezza */
+        .quote-section {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            padding: 4rem 2rem;
+            text-align: center;
+            margin: 3rem 0;
+            position: relative;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.1);
+        }
+
+        .quote-section::before {
+            content: '"';
+            font-size: 10rem;
+            color: #8e44ad;
+            opacity: 0.2;
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Times New Roman', serif;
+        }
+
+        .quote-text {
+            font-style: italic;
+            font-size: 2rem;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Sezioni contenuto alternato */
+        .content-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 4rem 2rem;
+            margin: 3rem 0;
+            border-radius: 0;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+        }
+
+        .content-section:nth-child(even) {
+            background: rgba(245, 245, 245, 0.95);
+        }
+
+        .section-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .content-section h2 {
+            color: #8e44ad;
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            font-family: 'Times New Roman', serif;
+            text-align: center;
+            position: relative;
+            padding-bottom: 1.5rem;
+        }
+
+        .content-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 4px;
+            background: linear-gradient(to right, #8e44ad, #c0392b);
+        }
+
+        .content-section p {
+            font-size: 1.3rem;
+            line-height: 2;
+            color: #444;
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
+        /* Info boxes in griglia */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #f5d7e3 0%, #dda5c0 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 3px solid #8e44ad;
+            transition: all 0.3s;
+        }
+
+        .info-box:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(142, 68, 173, 0.4);
+        }
+
+        .info-box h3 {
+            color: #8e44ad;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .info-box p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin: 0;
+            text-align: left;
+        }
+
+        /* Timeline section */
+        .timeline-section {
+            background: linear-gradient(135deg, #e8cbc0 0%, #636fa4 100%);
+            padding: 4rem 2rem;
+            margin: 3rem 0;
+        }
+
+        .timeline-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .timeline-section h3 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .timeline-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .timeline-section li {
+            color: white;
+            padding: 1.2rem 0;
+            padding-left: 3rem;
+            position: relative;
+            font-size: 1.3rem;
+            line-height: 1.8;
+            border-left: 3px solid #d4af37;
+            margin-left: 2rem;
+        }
+
+        .timeline-section li::before {
+            content: '👑';
+            position: absolute;
+            left: -1.5rem;
+            font-size: 1.5rem;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem;
+            border-radius: 50%;
+        }
+
+        /* Simboli decorativi */
+        .decorative-symbols {
+            text-align: center;
+            font-size: 4rem;
+            padding: 3rem 0;
+            opacity: 0.8;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #2c3e50 0%, #8e44ad 100%);
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 0;
+            border-top: 4px solid #d4af37;
+        }
+
+        footer p {
+            font-size: 1.2rem;
+            margin: 0.5rem 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-section h1 { font-size: 2.5rem; }
+            .character-emoji { font-size: 5rem; }
+            .character-subtitle { font-size: 1.3rem; }
+            .content-section h2 { font-size: 2rem; }
+            .content-section p { font-size: 1.1rem; text-align: left; }
+            .quote-text { font-size: 1.3rem; }
+            .page-title { font-size: 1.3rem; }
+            .info-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Petali animati -->
+    <div class="petals" id="petals"></div>
+
+    <!-- Header fisso -->
+    <header class="page-header">
+        <div class="header-content">
+            <a href="index.html" class="back-link">
+                <span>← Torna alla Leggenda</span>
+            </a>
+            <div class="page-title">👑 Re Marco - Il Re di Cornovaglia</div>
+        </div>
+    </header>
+
+    <!-- Container principale -->
+    <div class="main-container">
+        
+        <!-- Hero section -->
+        <section class="hero-section">
+            <div class="character-emoji">👑</div>
+            <h1>Re Marco</h1>
+            <p class="character-subtitle">Il Re di Cornovaglia</p>
+        </section>
+
+        <!-- Citazione -->
+        <section class="quote-section">
+            <p class="quote-text">Un re può perdonare, ma un uomo tradito soffre</p>
+        </section>
+
+        <!-- Storia -->
+        <section class="content-section">
+            <div class="section-inner">
+                <h2>La Storia di Re Marco</h2>
+                <p>
+                    Re Marco di Cornovaglia è uno dei personaggi più complessi e tragici della leggenda. Sovrano giusto 
+                    e saggio, amato dal suo popolo, si trova intrappolato in una situazione impossibile che nessun uomo 
+                    vorrebbe vivere. Ama suo nipote Tristano come un figlio, avendolo cresciuto alla sua corte dopo la 
+                    morte dei genitori, e vede in lui il cavaliere più valoroso del regno.
+                </p>
+                <p>
+                    Quando decide di sposare la bella Isotta d'Irlanda, invia proprio Tristano a chiedere la sua mano, 
+                    fiducioso nella lealtà del nipote. Ma il destino ha altri piani. Il filtro d'amore bevuto da Tristano 
+                    e Isotta trasforma quello che doveva essere un matrimonio felice in un incubo di tradimenti e inganni.
+                </p>
+                <p>
+                    Marco è dilaniato tra l'amore per Tristano, l'amore per Isotta e il dovere di re. I cortigiani lo 
+                    spingono a punire i traditori, a vendicare l'onore offeso, ma il suo cuore non riesce a odiare 
+                    completamente né suo nipote né sua moglie. Sa che sono vittime di una magia più grande di loro, 
+                    eppure la sofferenza del tradimento è reale e profonda.
+                </p>
+            </div>
+        </section>
+
+        <div class="decorative-symbols">👑 💔 ⚖️</div>
+
+        <!-- Caratteristiche -->
+        <section class="content-section">
+            <div class="section-inner">
+                <h2>Il Carattere del Re</h2>
+                <div class="info-grid">
+                    <div class="info-box">
+                        <h3>👑 Re Giusto</h3>
+                        <p>Governa la Cornovaglia con saggezza e giustizia, rispettato dal suo popolo e temuto dai nemici.</p>
+                    </div>
+                    <div class="info-box">
+                        <h3>💙 Cuore Nobile</h3>
+                        <p>Ama profondamente Tristano e Isotta, il che rende il loro tradimento ancora più doloroso da sopportare.</p>
+                    </div>
+                    <div class="info-box">
+                        <h3>⚖️ Diviso tra Dovere e Amore</h3>
+                        <p>Lotta costantemente tra ciò che dovrebbe fare come re e ciò che il suo cuore gli suggerisce.</p>
+                    </div>
+                    <div class="info-box">
+                        <h3>😢 Vittima Tragica</h3>
+                        <p>Non è un tiranno né un nemico, ma un uomo buono schiacciato da circostanze crudeli.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Timeline -->
+        <section class="timeline-section">
+            <div class="timeline-inner">
+                <h3>I Momenti Chiave della sua Vita</h3>
+                <ul>
+                    <li>Cresce Tristano alla sua corte come un figlio dopo la morte dei genitori</li>
+                    <li>Decide di sposare Isotta d'Irlanda per ragioni politiche</li>
+                    <li>Invia Tristano in Irlanda a chiedere la mano di Isotta</li>
+                    <li>Sposa Isotta senza sapere del filtro d'amore</li>
+                    <li>Inizia a sospettare del tradimento tra Tristano e Isotta</li>
+                    <li>Scopre la verità ma è dilaniato tra giustizia e amore</li>
+                    <li>Condanna i due amanti ma poi li perdona più volte</li>
+                    <li>Li trova nella foresta di Morois e comprende la potenza del loro amore</li>
+                    <li>Vive il resto dei suoi giorni con la sofferenza del tradimento</li>
+                </ul>
+            </div>
+        </section>
+
+        <div class="decorative-symbols">⚔️ 💔 🏰</div>
+
+        <!-- Simbolismo -->
+        <section class="content-section">
+            <div class="section-inner">
+                <h2>Il Simbolismo di Re Marco</h2>
+                <p>
+                    Re Marco rappresenta la figura dell'autorità giusta ma impotente di fronte alle forze dell'amore. 
+                    Incarna il conflitto tra la legge e il sentimento, tra ciò che la società richiede e ciò che il 
+                    cuore comprende. Non è il classico antagonista della storia d'amore, ma piuttosto un'altra vittima 
+                    delle circostanze.
+                </p>
+                <p>
+                    La sua capacità di perdonare ripetutamente Tristano e Isotta mostra la sua grandezza d'animo, ma 
+                    anche la sua tragedia personale. È abbastanza saggio da capire che il filtro d'amore ha tolto loro 
+                    il libero arbitrio, eppure questo non allevia il dolore del tradimento. Come re deve punire, come 
+                    uomo vorrebbe perdonare, come zio ama Tristano, come marito è stato tradito.
+                </p>
+                <p>
+                    Marco ci insegna che a volte nella vita non ci sono soluzioni facili. Non tutti i problemi possono 
+                    essere risolti con la giustizia o con la vendetta. Alcune ferite rimangono aperte, e tutto ciò che 
+                    possiamo fare è imparare a convivere con il dolore, cercando di mantenere la nostra dignità e umanità.
+                </p>
+            </div>
+        </section>
+
+        <!-- Messaggio finale -->
+        <section class="content-section">
+            <div class="section-inner">
+                <h2>Un Re per Sempre</h2>
+                <p>
+                    Re Marco ci mostra che la vera nobiltà non sta nel non soffrire mai, ma nel modo in cui gestiamo 
+                    la sofferenza. Potrebbe essere crudele, vendicativo, spietato - e nessuno lo biasimerebbe - ma 
+                    sceglie ripetutamente la strada della comprensione e del perdono.
+                </p>
+                <p>
+                    La sua storia ci insegna l'empatia: anche quando qualcuno ci fa del male, possiamo cercare di capire 
+                    le circostanze che lo hanno portato a farlo. Non significa giustificare tutto, ma significa riconoscere 
+                    la complessità della natura umana e delle situazioni che viviamo.
+                </p>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>👑 Re Marco - Il Re di Cornovaglia 💔</p>
+        <p style="margin-top: 0.5rem; font-size: 1rem;">La nobiltà del perdono ✨</p>
+    </footer>
+
+    <script>
+        // Crea petali animati
+        function createPetals() {
+            const petalsContainer = document.getElementById('petals');
+            for (let i = 0; i < 50; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                const size = Math.random() * 8 + 4;
+                petal.style.width = size + 'px';
+                petal.style.height = size + 'px';
+                petal.style.left = Math.random() * 100 + '%';
+                petal.style.animationDelay = Math.random() * 15 + 's';
+                petal.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                petalsContainer.appendChild(petal);
+            }
+        }
+
+        // Inizializza
+        createPetals();
+    </script>
+</body>
+</html>
 
