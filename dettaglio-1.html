@@ -1,1 +1,416 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚔️ Tristano - Il Cavaliere Maledetto</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #8e44ad 50%, #c0392b 100%);
+            color: #333;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Petali di rosa animati nello sfondo */
+        .petals {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .petal {
+            position: absolute;
+            background: #ff6b9d;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: fall 15s infinite;
+        }
+
+        @keyframes fall {
+            0% { 
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 0.8;
+            }
+            100% { 
+                transform: translateY(calc(100vh + 100px)) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Back Link */
+        .back-link {
+            display: inline-block;
+            text-decoration: none;
+            color: #d4af37;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 30px;
+            padding: 12px 24px;
+            background: rgba(44, 62, 80, 0.9);
+            border-radius: 50px;
+            transition: all 0.3s;
+            border: 2px solid #d4af37;
+        }
+
+        .back-link:hover {
+            background: linear-gradient(135deg, #8e44ad 0%, #c0392b 100%);
+            color: white;
+            transform: translateX(-10px);
+        }
+
+        /* Card principale */
+        .character-detail {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            border: 4px solid #d4af37;
+            animation: fadeIn 1s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Header personaggio */
+        .character-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 3px solid #8e44ad;
+        }
+
+        .character-emoji {
+            font-size: 6rem;
+            margin-bottom: 1rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .character-header h1 {
+            font-family: 'Times New Roman', serif;
+            font-size: 3.5rem;
+            color: #8e44ad;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .character-subtitle {
+            font-size: 1.5rem;
+            color: #c0392b;
+            font-style: italic;
+            font-weight: bold;
+        }
+
+        /* Citazione */
+        .quote-box {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            border-left: 5px solid #c0392b;
+            font-style: italic;
+            font-size: 1.3rem;
+            color: #333;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .quote-box::before {
+            content: '"';
+            font-size: 4rem;
+            color: #8e44ad;
+            opacity: 0.3;
+            position: absolute;
+            margin-left: -30px;
+            margin-top: -20px;
+        }
+
+        /* Sezioni contenuto */
+        .content-section {
+            margin: 2.5rem 0;
+        }
+
+        .content-section h2 {
+            color: #8e44ad;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            font-family: 'Times New Roman', serif;
+            border-left: 5px solid #d4af37;
+            padding-left: 15px;
+        }
+
+        .content-section p {
+            font-size: 1.2rem;
+            line-height: 1.9;
+            color: #444;
+            margin-bottom: 1.2rem;
+            text-align: justify;
+        }
+
+        /* Info boxes */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #f5d7e3 0%, #dda5c0 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 2px solid #8e44ad;
+            transition: transform 0.3s;
+        }
+
+        .info-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(142, 68, 173, 0.3);
+        }
+
+        .info-box h3 {
+            color: #8e44ad;
+            margin-bottom: 0.8rem;
+            font-size: 1.3rem;
+        }
+
+        .info-box p {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Timeline mini */
+        .mini-timeline {
+            background: linear-gradient(135deg, #e8cbc0 0%, #636fa4 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            border: 3px solid #d4af37;
+        }
+
+        .mini-timeline h3 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .mini-timeline ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .mini-timeline li {
+            color: white;
+            padding: 0.8rem 0;
+            padding-left: 2rem;
+            position: relative;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .mini-timeline li::before {
+            content: '⚔️';
+            position: absolute;
+            left: 0;
+        }
+
+        /* Simboli decorativi */
+        .decorative-symbols {
+            text-align: center;
+            font-size: 3rem;
+            margin: 2rem 0;
+            opacity: 0.7;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .character-header h1 { font-size: 2.5rem; }
+            .character-emoji { font-size: 4rem; }
+            .content-section p { font-size: 1.1rem; }
+            .character-detail { padding: 2rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Petali animati -->
+    <div class="petals" id="petals"></div>
+
+    <div class="container">
+        <a href="index.html" class="back-link">← Torna alla Leggenda</a>
+        
+        <div class="character-detail">
+            <!-- Header del personaggio -->
+            <div class="character-header">
+                <div class="character-emoji">⚔️</div>
+                <h1>Tristano</h1>
+                <p class="character-subtitle">Il Cavaliere Maledetto</p>
+            </div>
+
+            <!-- Citazione -->
+            <div class="quote-box">
+                Né tu senza me, né io senza te
+            </div>
+
+            <!-- Storia del personaggio -->
+            <div class="content-section">
+                <h2>La Storia di Tristano</h2>
+                <p>
+                    Tristano è il protagonista di una delle più grandi leggende d'amore della letteratura medievale. 
+                    Il suo nome, che significa "tristezza", è un presagio del destino tragico che lo attende. Orfano 
+                    fin dalla nascita, viene cresciuto alla corte dello zio, re Marco di Cornovaglia, dove diventa 
+                    uno dei cavalieri più valorosi del regno.
+                </p>
+                <p>
+                    La sua vita cambia per sempre quando sconfigge in duello il temibile Moroldo d'Irlanda. Ferito 
+                    dalla lama avvelenata del gigante, Tristano cerca rifugio in Irlanda, dove viene curato dalla 
+                    principessa Isotta. Tra i due nasce un legame profondo, un'attrazione che va oltre la ragione.
+                </p>
+                <p>
+                    Quando re Marco decide di sposare Isotta, Tristano viene inviato in Irlanda per chiedere la sua 
+                    mano. Fedele al suo dovere di cavaliere e nipote, accetta la missione, ma il destino ha altri 
+                    piani. Durante il viaggio di ritorno, Tristano e Isotta bevono per errore il filtro d'amore 
+                    magico destinato agli sposi reali. Da quel momento, il loro amore diventa impossibile da resistere.
+                </p>
+            </div>
+
+            <div class="decorative-symbols">⚔️ 🌹 💔</div>
+
+            <!-- Caratteristiche -->
+            <div class="content-section">
+                <h2>Il Carattere del Cavaliere</h2>
+                <div class="info-grid">
+                    <div class="info-box">
+                        <h3>⚔️ Valoroso Guerriero</h3>
+                        <p>Tristano è considerato uno dei più grandi cavalieri del suo tempo, abile con la spada e invincibile in battaglia.</p>
+                    </div>
+                    <div class="info-box">
+                        <h3>🎵 Artista Sensibile</h3>
+                        <p>Suona l'arpa con maestria incomparabile, le sue melodie commuovono anche i cuori più duri.</p>
+                    </div>
+                    <div class="info-box">
+                        <h3>👑 Fedele al Dovere</h3>
+                        <p>Tormentato dal conflitto tra lealtà verso lo zio e l'amore per Isotta, cerca sempre di fare ciò che è giusto.</p>
+                    </div>
+                    <div class="info-box">
+                        <h3>💔 Anima Tormentata</h3>
+                        <p>Il suo nome stesso, Tristano, incarna la tristezza e il dolore che caratterizzano la sua esistenza.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Momenti chiave -->
+            <div class="mini-timeline">
+                <h3>I Momenti Chiave della sua Vita</h3>
+                <ul>
+                    <li>Sconfigge Moroldo d'Irlanda ma viene ferito mortalmente</li>
+                    <li>Viene curato da Isotta in Irlanda, nasconde la sua identità</li>
+                    <li>Viene inviato dallo zio a chiedere la mano di Isotta</li>
+                    <li>Beve il filtro d'amore magico durante il viaggio di ritorno</li>
+                    <li>Vive un amore impossibile con Isotta, moglie di re Marco</li>
+                    <li>Fugge con Isotta nella foresta di Morois</li>
+                    <li>Si esilia in Bretagna e sposa Isotta dalle Mani Bianche</li>
+                    <li>Muore tra le braccia della sua amata Isotta</li>
+                </ul>
+            </div>
+
+            <!-- Il suo significato -->
+            <div class="content-section">
+                <h2>Il Simbolismo di Tristano</h2>
+                <p>
+                    Tristano rappresenta l'ideale del cavaliere medievale: coraggioso, leale, abile nelle armi e 
+                    nelle arti. Ma è anche l'archetipo dell'eroe tragico, diviso tra dovere e passione, tra fedeltà 
+                    e desiderio. La sua storia esplora il conflitto eterno tra ciò che la società ci chiede di essere 
+                    e ciò che il nostro cuore desidera veramente.
+                </p>
+                <p>
+                    Il filtro d'amore è una metafora potente: rappresenta quella forza irresistibile dell'amore che 
+                    va oltre la volontà, oltre la ragione, oltre persino il bene e il male. Tristano non sceglie di 
+                    tradire suo zio, viene travolto da un sentimento più grande di lui. La sua tragedia è essere un 
+                    uomo buono in una situazione impossibile.
+                </p>
+                <p>
+                    Nella tradizione cortese, Tristano diventa il simbolo dell'amante perfetto: disposto a sacrificare 
+                    tutto per amore, a vivere nell'ombra, a soffrire in silenzio. La sua morte accanto ad Isotta non è 
+                    una sconfitta, ma il trionfo dell'amore sulla morte stessa.
+                </p>
+            </div>
+
+            <div class="decorative-symbols">🗡️ 👑 🌹</div>
+
+            <!-- Messaggio personale -->
+            <div class="content-section">
+                <h2>Un Cavaliere per Sempre</h2>
+                <p>
+                    Come Tristano ha amato Isotta con tutto se stesso, sfidando il mondo intero, così vorrei che 
+                    il nostro amore fosse forte, puro e incondizionato. La sua storia ci insegna che l'amore vero 
+                    non conosce ostacoli, non si piega alle convenzioni, non teme il giudizio degli altri.
+                </p>
+                <p>
+                    Tristano ci mostra che a volte l'amore richiede coraggio - il coraggio di seguire il proprio 
+                    cuore anche quando tutto sembra remare contro. E forse, a differenza della leggenda, il nostro 
+                    finale può essere più felice, perché abbiamo imparato dalla loro storia.
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Crea petali animati
+        function createPetals() {
+            const petalsContainer = document.getElementById('petals');
+            for (let i = 0; i < 50; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                const size = Math.random() * 8 + 4;
+                petal.style.width = size + 'px';
+                petal.style.height = size + 'px';
+                petal.style.left = Math.random() * 100 + '%';
+                petal.style.animationDelay = Math.random() * 15 + 's';
+                petal.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                petalsContainer.appendChild(petal);
+            }
+        }
+
+        // Inizializza
+        createPetals();
+
+        // Smooth scroll per il back link
+        document.querySelector('.back-link').addEventListener('click', function(e) {
+            if (this.getAttribute('href') === 'index.html') {
+                return;
+            }
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
