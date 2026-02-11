@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚔️ Tristano e Isotta - Una Leggenda d'Amore ⚔️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #8e44ad 50%, #c0392b 100%);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Petali di rosa animati nello sfondo */
+        .petals {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .petal {
+            position: absolute;
+            background: #ff6b9d;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: fall 15s infinite;
+        }
+
+        @keyframes fall {
+            0% { 
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 0.8;
+            }
+            100% { 
+                transform: translateY(calc(100vh + 100px)) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #8e44ad 0%, #c0392b 100%);
+            color: white;
+            padding: 2.5rem 0;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            position: relative;
+            z-index: 10;
+            border-bottom: 4px solid #d4af37;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
+            animation: glow 2s ease-in-out infinite;
+            font-family: 'Times New Roman', serif;
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 3px 3px 6px rgba(0,0,0,0.5), 0 0 20px rgba(212,175,55,0.5); }
+            50% { text-shadow: 3px 3px 6px rgba(0,0,0,0.5), 0 0 30px rgba(212,175,55,0.8); }
+        }
+
+        header p {
+            font-size: 1.3rem;
+            margin-top: 0.5rem;
+            font-style: italic;
+            color: #ffd700;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(44, 62, 80, 0.95);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            border-bottom: 2px solid #d4af37;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: #d4af37;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+
+        nav a:hover {
+            background: linear-gradient(135deg, #8e44ad 0%, #c0392b 100%);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Container principale */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Sezioni */
+        section {
+            background: rgba(255, 255, 255, 0.95);
+            margin: 2rem 0;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: fadeIn 1s;
+            border: 3px solid #d4af37;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        section h2 {
+            color: #8e44ad;
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 1rem;
+            font-family: 'Times New Roman', serif;
+        }
+
+        section h2::after {
+            content: '⚔️';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+        }
+
+        /* Griglia personaggi */
+        .characters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .character-card {
+            background: linear-gradient(135deg, #f5d7e3 0%, #dda5c0 100%);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            border: 2px solid #8e44ad;
+        }
+
+        .character-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(142, 68, 173, 0.5);
+        }
+
+        .character-card h3 {
+            color: #8e44ad;
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .character-card .emoji {
+            font-size: 4rem;
+            margin: 1rem 0;
+        }
+
+        /* Gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .gallery-item {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #e8cbc0 0%, #636fa4 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+            border: 2px solid #d4af37;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        /* Quiz */
+        .quiz-container {
+            background: linear-gradient(135deg, #f5d7e3 0%, #dda5c0 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 1rem;
+            border: 2px solid #8e44ad;
+        }
+
+        .question {
+            font-size: 1.3rem;
+            color: #8e44ad;
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .option {
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid transparent;
+        }
+
+        .option:hover {
+            background: #8e44ad;
+            color: white;
+            border-color: #d4af37;
+            transform: translateX(10px);
+        }
+
+        .quiz-result {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.2rem;
+            display: none;
+            border: 2px solid #8e44ad;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, #8e44ad, #c0392b);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            margin-bottom: 2rem;
+            position: relative;
+            width: 45%;
+        }
+
+        .timeline-item:nth-child(even) {
+            margin-left: auto;
+        }
+
+        .timeline-content {
+            background: linear-gradient(135deg, #f5d7e3 0%, #dda5c0 100%);
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border: 2px solid #8e44ad;
+        }
+
+        .timeline-content h3 {
+            color: #8e44ad;
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        /* Love Message */
+        .love-message {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            margin-top: 2rem;
+            animation: heartbeat 2s infinite;
+            border: 3px solid #c0392b;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            10% { transform: scale(1.05); }
+            20% { transform: scale(1); }
+        }
+
+        .love-message h3 {
+            color: #8e44ad;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .love-message p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        /* Music Player */
+        .music-player {
+            background: linear-gradient(135deg, #2c3e50 0%, #8e44ad 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 1rem;
+            border: 3px solid #d4af37;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #2c3e50 0%, #8e44ad 100%);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            border-top: 4px solid #d4af37;
+        }
+
+        footer p {
+            font-size: 1.1rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            max-width: 500px;
+            text-align: center;
+            animation: modalPop 0.3s;
+            border: 3px solid #8e44ad;
+        }
+
+        @keyframes modalPop {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .close-modal {
+            background: #c0392b;
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+
+        .close-modal:hover {
+            background: #8e44ad;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 { font-size: 2rem; }
+            nav ul { flex-direction: column; gap: 0.5rem; }
+            .timeline::before { left: 20px; }
+            .timeline-item { width: 100%; margin-left: 40px !important; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Petali animati -->
+    <div class="petals" id="petals"></div>
+
+    <!-- Header -->
+    <header>
+        <h1>⚔️ Tristano e Isotta 🌹</h1>
+        <p>Un amore più forte del destino</p>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#personaggi">Personaggi</a></li>
+            <li><a href="#storia">La Leggenda</a></li>
+            <li><a href="#luoghi">Luoghi</a></li>
+            <li><a href="#simboli">Simboli</a></li>
+            <li><a href="#quiz">Quiz</a></li>
+            <li><a href="#messaggio">Messaggio</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!-- Home Section -->
+        <section id="home">
+            <h2>Benvenuto nella Leggenda di Tristano e Isotta</h2>
+            <p style="text-align: center; font-size: 1.2rem; line-height: 1.8;">
+                La storia di Tristano e Isotta è una delle più grandi leggende d'amore della letteratura medievale. 
+                Nata nella tradizione celtica e diffusa in tutta Europa, racconta l'amore impossibile tra il cavaliere 
+                Tristano e la principessa Isotta, promessa sposa di re Marco di Cornovaglia. Un filtro d'amore magico 
+                li unirà per sempre in un destino tragico e appassionato, sfidando il dovere, l'onore e persino la morte.
+            </p>
+            <div style="text-align: center; font-size: 5rem; margin: 2rem 0;">
+                ⚔️🌹💔👑🗡️
+            </div>
+        </section>
+
+        <!-- Personaggi -->
+        <section id="personaggi">
+            <h2>I Protagonisti della Leggenda</h2>
+            <div class="characters-grid">
+                <div class="character-card" onclick="showCharacterInfo('Tristano')">
+                    <div class="emoji">⚔️</div>
+                    <h3>Tristano</h3>
+                    <p><strong>Il Cavaliere Maledetto</strong></p>
+                    <p>Valoroso guerriero, nipote di re Marco, destinato ad un amore impossibile</p>
+                </div>
+                <div class="character-card" onclick="showCharacterInfo('Isotta')">
+                    <div class="emoji">🌹</div>
+                    <h3>Isotta la Bionda</h3>
+                    <p><strong>La Principessa d\'Irlanda</strong></p>
+                    <p>Bella, intelligente e destinata a sposare re Marco</p>
+                </div>
+                <div class="character-card" onclick="showCharacterInfo('Re Marco')">
+                    <div class="emoji">👑</div>
+                    <h3>Re Marco</h3>
+                    <p><strong>Il Re di Cornovaglia</strong></p>
+                    <p>Zio di Tristano, tradito dall'amore tra suo nipote e la sua sposa</p>
+                </div>
+                <div class="character-card" onclick="showCharacterInfo('Isotta dalle Mani Bianche')">
+                    <div class="emoji">🕊️</div>
+                    <h3>Isotta dalle Mani Bianche</h3>
+                    <p><strong>La Sposa Dimenticata</strong></p>
+                    <p>Moglie di Tristano, che non riuscirà mai a conquistare il suo cuore</p>
+                </div>
+                <div class="character-card" onclick="showCharacterInfo('Brangania')">
+                    <div class="emoji">🔮</div>
+                    <h3>Brangania</h3>
+                    <p><strong>La Fedele Ancella</strong></p>
+                    <p>Dama di compagnia di Isotta, custode del filtro d'amore</p>
+                </div>
+                <div class="character-card" onclick="showCharacterInfo('Moroldo')">
+                    <div class="emoji">🗡️</div>
+                    <h3>Moroldo</h3>
+                    <p><strong>Il Cavaliere Irlandese</strong></p>
+                    <p>Campione d'Irlanda, sconfitto da Tristano in duello</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Storia -->
+        <section id="storia">
+            <h2>La Leggenda</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>⚔️ Il Duello con Moroldo</h3>
+                        <p>Tristano sconfigge il gigante Moroldo d'Irlanda, ma viene ferito da una lama avvelenata. Solo la principessa Isotta, esperta di erbe medicinali, può salvarlo.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>🌹 La Guarigione</h3>
+                        <p>Isotta cura Tristano in Irlanda senza conoscere la sua vera identità. I due si incontrano e nasce tra loro una profonda ammirazione.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>💍 La Missione</h3>
+                        <p>Re Marco invia Tristano in Irlanda per chiedere la mano di Isotta. Tristano, fedele al suo re e zio, accetta nonostante i suoi sentimenti.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>🍷 Il Filtro d'Amore</h3>
+                        <p>Durante il viaggio verso la Cornovaglia, Tristano e Isotta bevono per errore il filtro d'amore magico destinato agli sposi. Il loro destino è segnato.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>👑 Le Nozze Reali</h3>
+                        <p>Isotta sposa re Marco, ma il suo cuore appartiene a Tristano. Inizia una doppia vita fatta di incontri segreti e dolore.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>🌲 La Fuga nella Foresta</h3>
+                        <p>Scoperti, i due amanti fuggono nella foresta di Morois, vivendo come esuli ma finalmente insieme, lontani dal mondo.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>💔 L'Esilio di Tristano</h3>
+                        <p>Tristano, tormentato dal senso di colpa, si allontana e sposa Isotta dalle Mani Bianche in Bretagna, ma non dimentica il suo vero amore.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>🕊️ La Morte degli Amanti</h3>
+                        <p>Ferito mortalmente, Tristano chiede di rivedere Isotta. Lei accorre, ma arriva troppo tardi. Morendo sul corpo dell'amato, i due sono finalmente riuniti per sempre.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Luoghi -->
+        <section id="luoghi">
+            <h2>I Luoghi della Leggenda</h2>
+            <div style="display: grid; gap: 1rem; margin-top: 1rem;">
+                <div style="background: linear-gradient(135deg, #e8cbc0 0%, #636fa4 100%); padding: 1.5rem; border-radius: 10px; border: 2px solid #8e44ad;">
+                    <h3 style="color: white;">🏰 Castello di Tintagel - Cornovaglia</h3>
+                    <p style="color: white;">La corte di re Marco, dove si svolge gran parte della tragedia. Un castello a picco sul mare, teatro di inganni e passioni.</p>
+                </div>
+                <div style="background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%); padding: 1.5rem; border-radius: 10px; border: 2px solid #8e44ad;">
+                    <h3 style="color: white;">🌳 Foresta di Morois</h3>
+                    <p style="color: white;">Il rifugio degli amanti fuggitivi, dove Tristano e Isotta vivono liberi ma braccati, in armonia con la natura.</p>
+                </div>
+                <div style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); padding: 1.5rem; border-radius: 10px; border: 2px solid #8e44ad;">
+                    <h3 style="color: white;">🌊 Irlanda</h3>
+                    <p style="color: white;">La terra natia di Isotta, regno magico e misterioso, dove tutto ha inizio con il duello contro Moroldo.</p>
+                </div>
+                <div style="background: linear-gradient(135deg, #93291e 0%, #ed213a 100%); padding: 1.5rem; border-radius: 10px; border: 2px solid #8e44ad;">
+                    <h3 style="color: white;">⚔️ Bretagna</h3>
+                    <p style="color: white;">L'esilio di Tristano, dove sposa Isotta dalle Mani Bianche e dove si compie il destino tragico degli amanti.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Simboli -->
+        <section id="simboli">
+            <h2>I Simboli della Leggenda</h2>
+            <div class="gallery">
+                <div class="gallery-item" title="Il filtro d'amore magico">🍷</div>
+                <div class="gallery-item" title="La spada di Tristano">⚔️</div>
+                <div class="gallery-item" title="Le rose della passione">🌹</div>
+                <div class="gallery-item" title="La corona di re Marco">👑</div>
+                <div class="gallery-item" title="L'arpa di Tristano">🎵</div>
+                <div class="gallery-item" title="La nave del destino">⛵</div>
+                <div class="gallery-item" title="Il cuore spezzato">💔</div>
+                <div class="gallery-item" title="La vela bianca della speranza">🕊️</div>
+            </div>
+        </section>
+
+        <!-- Quiz -->
+        <section id="quiz">
+            <h2>Quiz: Quale Personaggio Sei?</h2>
+            <div class="quiz-container">
+                <div class="question">Come affronti un amore impossibile?</div>
+                <div class="options">
+                    <div class="option" onclick="selectAnswer('tristano')">⚔️ Lo vivo con passione, sfidando tutto e tutti</div>
+                    <div class="option" onclick="selectAnswer('isotta')">🌹 Seguo il mio cuore, anche se mi condanna</div>
+                    <div class="option" onclick="selectAnswer('marco')">👑 Cerco di capire e perdonare, pur soffrendo</div>
+                    <div class="option" onclick="selectAnswer('bianche')">🕊️ Amo in silenzio, accettando di non essere ricambiato</div>
+                    <div class="option" onclick="selectAnswer('brangania')">🔮 Proteggo chi amo, anche a costo di grandi sacrifici</div>
+                </div>
+                <div class="quiz-result" id="quizResult"></div>
+            </div>
+        </section>
+
+        <!-- Music Player -->
+        <section>
+            <h2>Musica Medievale</h2>
+            <div class="music-player">
+                <h3>🎵 Canti d'Amore Cortese 🎵</h3>
+                <p>Le melodie che accompagnano la leggenda eterna</p>
+                
+                <audio controls loop>
+                    <source src="musica/tristano-isotta.mp3" type="audio/mpeg">
+                    Il tuo browser non supporta l'audio.
+                </audio>
+                <p style="margin-top: 1rem; font-size: 0.9rem; font-style: italic;">
+                    "Tristano suonava l'arpa come nessun altro, e le sue note facevano piangere anche i cuori più duri..."
+                </p>
+            </div>
+        </section>
+
+        <!-- Messaggio d'Amore -->
+        <section id="messaggio">
+            <h2>Un Messaggio d'Amore Eterno</h2>
+            <div class="love-message">
+                <h3>💔 Per Te 🌹</h3>
+                <p>
+                    Come Tristano e Isotta hanno sfidato il destino per il loro amore, così vorrei che il nostro 
+                    legame fosse forte come il loro, ma con un finale più felice. La loro storia ci insegna che 
+                    l'amore vero può superare ogni ostacolo, anche se il prezzo da pagare è alto.
+                </p>
+                <p style="margin-top: 1rem;">
+                    Nelle leggende medievali, l'amore cortese era il sentimento più nobile e puro. Due anime 
+                    destinate a incontrarsi, a riconoscersi, ad amarsi oltre ogni convenzione sociale.
+                </p>
+                <p style="margin-top: 1rem; font-weight: bold; font-size: 1.3rem;">
+                    Come il filtro d'amore ha unito per sempre Tristano e Isotta, 
+                    così il nostro amore è scritto nel destino. ⚔️🌹
+                </p>
+                <p style="margin-top: 1rem; font-style: italic; color: #8e44ad;">
+                    "Né tu senza me, né io senza te"
+                </p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>⚔️ Creato con amore per celebrare la più bella leggenda medievale 🌹</p>
+        <p style="margin-top: 0.5rem;">© 2026 - Tristano e Isotta: un amore oltre il tempo ✨</p>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal" id="characterModal">
+        <div class="modal-content">
+            <h2 id="modalTitle" style="color: #8e44ad;"></h2>
+            <p id="modalText"></p>
+            <button class="close-modal" onclick="closeModal()">Chiudi</button>
+        </div>
+    </div>
+
+    <script>
+        // Crea petali animati
+        function createPetals() {
+            const petalsContainer = document.getElementById('petals');
+            for (let i = 0; i < 50; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                const size = Math.random() * 8 + 4;
+                petal.style.width = size + 'px';
+                petal.style.height = size + 'px';
+                petal.style.left = Math.random() * 100 + '%';
+                petal.style.animationDelay = Math.random() * 15 + 's';
+                petal.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                petalsContainer.appendChild(petal);
+            }
+        }
+
+        // Mostra info personaggio
+        function showCharacterInfo(character) {
+            const modal = document.getElementById('characterModal');
+            const title = document.getElementById('modalTitle');
+            const text = document.getElementById('modalText');
+            
+            const info = {
+                'Tristano': '⚔️ Tristano è il prototipo del cavaliere medievale: valoroso in battaglia, fedele al suo signore, ma tormentato da un amore che non può controllare. Orfano, cresciuto alla corte dello zio Marco, diventa uno dei più grandi guerrieri del suo tempo. Il suo nome significa "tristezza", presagio del suo destino tragico.',
+                'Isotta': '🌹 Isotta la Bionda è la principessa d\'Irlanda, dotata di grande bellezza e intelligenza. Esperta di erbe medicinali e magie, rappresenta l\'ideale femminile medievale: forte, saggia e capace di grande passione. Il filtro d\'amore la condanna a un conflitto eterno tra dovere e desiderio.',
+                'Re Marco': '👑 Re Marco di Cornovaglia è una figura tragica: ama suo nipote Tristano come un figlio e adora sua moglie Isotta, ma è destinato ad essere tradito da entrambi. Non è un tiranno, ma un uomo buono intrappolato in una situazione impossibile, diviso tra amore, dovere e onore.',
+                'Isotta dalle Mani Bianche': '🕊️ Isotta dalle Mani Bianche sposa Tristano in Bretagna, attratta dal suo nome che le ricorda la vera Isotta. È bella e gentile, ma non riuscirà mai a conquistare il cuore del marito. La sua tragedia è amare un uomo il cui cuore appartiene per sempre a un\'altra.',
+                'Brangania': '🔮 Brangania è la fedele dama di compagnia di Isotta. È lei a custodire il filtro d\'amore magico preparato dalla regina d\'Irlanda per garantire l\'amore tra Isotta e re Marco. Il suo errore involontario cambia per sempre il destino degli amanti.',
+                'Moroldo': '🗡️ Moroldo è il campione d\'Irlanda, un gigante temibile che esige tributi dalla Cornovaglia. Il suo duello con Tristano è l\'evento che mette in moto tutta la leggenda. Sebbene sconfitto, la sua spada avvelenata ferisce Tristano, costringendolo a cercare aiuto in Irlanda.'
+            };
+            
+            title.textContent = character;
+            text.textContent = info[character];
+            modal.style.display = 'flex';
+        }
+
+        // Chiudi modal
+        function closeModal() {
+            document.getElementById('characterModal').style.display = 'none';
+        }
+
+        // Quiz
+        function selectAnswer(personaggio) {
+            const results = {
+                'tristano': '⚔️ Sei come Tristano! Coraggioso e passionale, sei disposto a sfidare il destino per chi ami. La tua fedeltà è assoluta, anche quando ti conduce verso la sofferenza.',
+                'isotta': '🌹 Sei come Isotta! Segui il tuo cuore con fierezza, anche quando la società ti condanna. La tua forza interiore e la tua intelligenza ti guidano attraverso le tempeste della vita.',
+                'marco': '👑 Sei come Re Marco! Nobile e comprensivo, cerchi sempre di fare la cosa giusta. La tua capacità di amare e perdonare è la tua forza, anche quando soffri in silenzio.',
+                'bianche': '🕊️ Sei come Isotta dalle Mani Bianche! Ami con purezza e dedizione, anche quando non sei ricambiato. La tua forza sta nella capacità di amare senza pretendere nulla in cambio.',
+                'brangania': '🔮 Sei come Brangania! Protettivo e leale, sei sempre al fianco di chi ami. La tua saggezza e il tuo spirito di sacrificio ti rendono indispensabile.'
+            };
+            
+            const result = document.getElementById('quizResult');
+            result.textContent = results[personaggio];
+            result.style.display = 'block';
+            
+            // Effetto petali
+            createConfetti();
+        }
+
+        // Confetti (petali di rosa)
+        function createConfetti() {
+            const colors = ['#ff6b9d', '#c0392b', '#8e44ad', '#e74c3c', '#ffd1dc'];
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'fixed';
+                confetti.style.width = '12px';
+                confetti.style.height = '12px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * window.innerWidth + 'px';
+                confetti.style.top = '-10px';
+                confetti.style.zIndex = '9999';
+                confetti.style.borderRadius = '50%';
+                confetti.style.opacity = '0.8';
+                document.body.appendChild(confetti);
+                
+                const fall = confetti.animate([
+                    { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
+                    { transform: `translateY(${window.innerHeight + 10}px) rotate(${Math.random() * 720}deg)`, opacity: 0 }
+                ], {
+                    duration: Math.random() * 3000 + 2000,
+                    easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                });
+                
+                fall.onfinish = () => confetti.remove();
+            }
+        }
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Inizializza
+        createPetals();
+
+        // Easter egg: click sul titolo
+        let clickCount = 0;
+        document.querySelector('header h1').addEventListener('click', function() {
+            clickCount++;
+            if (clickCount === 5) {
+                alert('🌹⚔️ "Né tu senza me, né io senza te" ⚔️🌹\n\nIl filtro d\'amore unisce per sempre le anime destinate!');
+                createConfetti();
+                clickCount = 0;
+            }
+        });
+
+        // Animazione petali extra al caricamento
+        setTimeout(() => {
+            createConfetti();
+        }, 1000);
+    </script>
+</body>
+</html>
